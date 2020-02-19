@@ -42,7 +42,7 @@ def insert_photo(request):
     title = request.form['title']
     comments = request.form['comments']
     filename = secure_filename(request.files['photo'].filename)
-    thumbfile = filename.rsplit(".",1)[0] + "-thumb.jpg"
+    thumbfile = filename.rsplit(".",1)[0] + "-thumb." + filename.rsplit(".",1)[1]
     photo_url = "http://" + ecs_test_drive['ecs_access_key_id'].split('@')[0] + ".public.ecstestdrive.com/" + ecs_test_drive['ecs_bucket_name'] + "/" + filename
     thumbnail_url = "http://" + ecs_test_drive['ecs_access_key_id'].split('@')[0] + ".public.ecstestdrive.com/" + ecs_test_drive['ecs_bucket_name'] + "/" + thumbfile
 
@@ -69,8 +69,8 @@ def upload_photo(file):
     with open("uploads/" + filename, 'rb') as f:
         img = Image.open(f)
         img.thumbnail(size)
-        thumbfile = filename.rsplit(".",1)[0] + "-thumb.jpg"
-        img.save("uploads/" + thumbfile,"JPEG")
+        thumbfile = filename.rsplit(".",1)[0] + "-thumb." + filename.rsplit(".",1)[1]
+        img.save("uploads/" + thumbfile)
         img.close()
 
     # Empty the variables to prevent memory leaks
