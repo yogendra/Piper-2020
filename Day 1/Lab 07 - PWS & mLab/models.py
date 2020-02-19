@@ -19,7 +19,7 @@ from config import ecs_test_drive
 if 'VCAP_SERVICES' in os.environ:
     VCAP_SERVICES = json.loads(os.environ['VCAP_SERVICES'])
     MONGOCRED = VCAP_SERVICES["mlab"][0]["credentials"]
-    client = MongoClient(MONGOCRED["uri"])
+    client = MongoClient(MONGOCRED["uri"] + "?retryWrites=false")
     DB_NAME = str(MONGOCRED["uri"].split("/")[-1])
 
 # Otherwise, assume running locally with local MongoDB instance
