@@ -11,7 +11,7 @@ import os
 import boto3
 import json
 from pymongo import MongoClient
-from werkzeug import secure_filename
+from werkzeug.utils import secure_filename
 from PIL import Image
 from config import ecs_test_drive
 
@@ -19,12 +19,12 @@ from config import ecs_test_drive
 if 'VCAP_SERVICES' in os.environ:
     VCAP_SERVICES = json.loads(os.environ['VCAP_SERVICES'])
     MONGOCRED = VCAP_SERVICES["mlab"][0]["credentials"]
-    client = MongoClient(MONGOCRED["uri"])
+    client = MongoClient(MONGOCRED["uri"] + "?retryWrites=false")
     DB_NAME = str(MONGOCRED["uri"].split("/")[-1])
 
 # Otherwise, assume running locally with local MongoDB instance
 else:
-    client = MongoClient('10.102.183.19:27017')
+    client = MongoClient('10.109.84.130:27017')
     DB_NAME = "mongodb"  ##### Make sure this matches the name of your MongoDB database ######
 
 # Get database connection with database name
@@ -42,7 +42,7 @@ def insert_photo(request):
     title = request.form['title']
     comments = request.form['comments']
     filename = secure_filename(request.files['photo'].filename)
-    thumbfile = filename.rsplit(".",1)[0] + "-thumb.jpg"
+    thumbfile = filename.rsplit(".",1)[0] + "-thumb." + filename.rsplit(".",1)[1]
     photo_url = "http://" + ecs_test_drive['ecs_access_key_id'].split('@')[0] + ".public.ecstestdrive.com/" + ecs_test_drive['ecs_bucket_name'] + "/" + filename
     thumbnail_url = "http://" + ecs_test_drive['ecs_access_key_id'].split('@')[0] + ".public.ecstestdrive.com/" + ecs_test_drive['ecs_bucket_name'] + "/" + thumbfile
 
@@ -69,8 +69,8 @@ def upload_photo(file):
     with open("uploads/" + filename, 'rb') as f:
         img = Image.open(f)
         img.thumbnail(size)
-        thumbfile = filename.rsplit(".",1)[0] + "-thumb.jpg"
-        img.save("uploads/" + thumbfile,"JPEG")
+        thumbfile = filename.rsplit(".",1)[0] + "-thumb." + filename.rsplit(".",1)[1]
+        img.save("uploads/" + thumbfile)
         img.close()
 
     # Empty the variables to prevent memory leaks
