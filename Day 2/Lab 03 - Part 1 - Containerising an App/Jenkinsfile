@@ -15,7 +15,7 @@ pipeline {
       steps{
         script {
           imageName = registry + ":$BUILD_NUMBER"
-          context = "./Day 2/Lab 03 - Part 1 - Containerising an App"      
+          context = "'./Day 2/Lab 03 - Part 1 - Containerising an App'"      
           docker.build(imageName, context)
         }
       }
