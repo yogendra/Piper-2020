@@ -2,6 +2,8 @@ pipeline {
   environment {
     registry = "yogendra/piper-2020-day-2-lab-3"
     registryCredential = 'dockerhub'
+    imageName = registry + ":$BUILD_NUMBER"
+
   }  
   agent any  
   stages {
@@ -14,9 +16,15 @@ pipeline {
     stage('Building image') {
       steps{
         script {
-          imageName = registry + ":$BUILD_NUMBER"
           context = "'./Day 2/Lab 03 - Part 1 - Containerising an App'"      
           docker.build(imageName, context)
+        }
+      }
+    }
+    stage ("Publish"){
+      steps {
+        script {
+          docker.push(imageName)
         }
       }
     }
