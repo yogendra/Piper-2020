@@ -7,7 +7,9 @@ pipeline {
   stages {
     // git url: 'https://github.com/yogendra/Piper-2020.git'
     stage('Checkout'){
-         checkout scm
+      steps {
+        checkout scm
+      }
     }
     stage('Building image') {
       steps{
