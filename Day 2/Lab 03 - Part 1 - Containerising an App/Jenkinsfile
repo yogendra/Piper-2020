@@ -1,11 +1,10 @@
 pipeline {  
   environment {
-    registry = "yogendra/piper-2020-day-2-lab-3"
+    registry = "cloudgeek007/devopspipeline"
     registryCredential = 'dockerhub'    
   }  
   agent any  
   stages {
-    // git url: 'https://github.com/yogendra/Piper-2020.git'
     stage('Checkout'){
       steps {
         checkout scm
