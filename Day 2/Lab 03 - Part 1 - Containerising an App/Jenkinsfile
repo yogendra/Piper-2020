@@ -5,6 +5,10 @@ pipeline {
   }  
   agent any  
   stages {
+    git url: 'https://github.com/yogendra/rapid-travel-api.git'
+    stage('Checkout'){
+         checkout scm
+    }
     stage('Building image') {
       steps{
         script {
