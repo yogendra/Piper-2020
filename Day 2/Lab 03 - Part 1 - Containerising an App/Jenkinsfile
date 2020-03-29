@@ -5,7 +5,7 @@ pipeline {
   }  
   agent any  
   stages {
-    git url: 'https://github.com/yogendra/Piper-2020.git'
+    // git url: 'https://github.com/yogendra/Piper-2020.git'
     stage('Checkout'){
          checkout scm
     }
