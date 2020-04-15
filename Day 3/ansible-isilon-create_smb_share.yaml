@@ -1,5 +1,5 @@
 - name: Isilon API get authentication token
-  hosts: isilon
+  hosts: localhost
   vars:
     Isilon_API_Endpoint: "https://<ip address>:8080"  ## Replace with the IP address or FQDN of Isilon appliance
     Isilon_PAPI_version: "8"
