@@ -24,7 +24,7 @@ if 'VCAP_SERVICES' in os.environ:
 
 # Otherwise, assume running locally with local MongoDB instance
 else:
-    client = MongoClient('10.109.84.130:27017')
+    client = MongoClient('10.108.101.102:27017')
     DB_NAME = "mongodb"  ##### Make sure this matches the name of your MongoDB database ######
 
 # Get database connection with database name
